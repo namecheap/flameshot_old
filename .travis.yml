@@ -3,10 +3,6 @@ sudo: required
 
 language: cpp
 
-branches:
-  only:
-    - master
-
 cache:
     directories:
       - $HOME/.cache
