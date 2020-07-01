@@ -16,7 +16,8 @@ env:
     global:
       # Environment variables for packaging
       - PRODUCT=flameshot
-      - VERSION=0.6.0
+      #TODO: we should take version from the last tag in git history + build number
+      - VERSION=0.7.0
       - RELEASE=1
       - ARCH=x86_64
       # Dockerfile from https://github.com/flameshotapp/flameshot-docker-images
