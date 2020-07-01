@@ -4,6 +4,8 @@ image: Visual Studio 2015
 version: 0.7.0.{build}
 # Major_Version_Number.Minor_Version_Number.Patch_Number.Build_Number
 
+skip_branch_with_pr: true
+
 environment:
   COMPILER: msvc
   VSVER: 14
