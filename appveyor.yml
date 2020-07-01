@@ -1,7 +1,8 @@
 image: Visual Studio 2015
 
+#TODO: we should take version from the last tag in git history + build number
 version: 0.7.0.{build}
-# Major_Version_Number.Minor_Version_Number.Build_Number.Revision_Number
+# Major_Version_Number.Minor_Version_Number.Patch_Number.Build_Number
 
 environment:
   COMPILER: msvc
