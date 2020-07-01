@@ -3,6 +3,11 @@ sudo: required
 
 language: cpp
 
+branches:
+  only:
+    - master
+    - master_nc
+
 cache:
     directories:
       - $HOME/.cache
@@ -36,16 +41,16 @@ matrix:
           env: OS=fedora DIST=30 EXTEN=rpm
           services: docker
         - os: linux
-          # 16.04 LTS
+          # Ubuntu 16.04 LTS
           env: OS=ubuntu DIST=xenial EXTEN=deb
           services: docker
         - os: linux
-          # 18.04 LTS
+          # Ubuntu 18.04 LTS
           env: OS=ubuntu DIST=bionic EXTEN=deb
           services: docker
         - os: linux
-          # 19.04
-          env: OS=ubuntu DIST=disco EXTEN=deb
+          # Ubuntu 20.04 LTS
+          env: OS=ubuntu DIST=focal EXTEN=deb
           services: docker
         - os: linux
           # 8
