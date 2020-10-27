@@ -116,7 +116,7 @@ void SingleApplicationPrivate::genBlockServerName(int timeout)
 #endif
 #ifdef Q_OS_UNIX
         QProcess process;
-        process.start(QStringLiteral("whoami"), QStringList{});
+        process.start(QString::fromUtf8("whoami"), QStringList{});
 
         if (process.waitForFinished(timeout) &&
             process.exitCode() == QProcess::NormalExit) {

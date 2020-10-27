@@ -61,7 +61,7 @@ public slots:
     void disableTrayIcon();
     void sendTrayNotification(
       const QString& text,
-      const QString& title = QStringLiteral("Flameshot Info"),
+      const QString& title = QString::fromUtf8("Flameshot Info"),
       const int timeout = 5000);
 
     void updateConfigComponents();

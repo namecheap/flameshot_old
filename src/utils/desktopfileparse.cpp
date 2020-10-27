@@ -26,12 +26,13 @@ DesktopFileParser::DesktopFileParser()
 {
     QString locale = QLocale().name();
     QString localeShort = QLocale().name().left(2);
-    m_localeName = QStringLiteral("Name[%1]").arg(locale);
-    m_localeDescription = QStringLiteral("Comment[%1]").arg(locale);
-    m_localeNameShort = QStringLiteral("Name[%1]").arg(localeShort);
-    m_localeDescriptionShort = QStringLiteral("Comment[%1]").arg(localeShort);
+    m_localeName = QString::fromUtf8("Name[%1]").arg(locale);
+    m_localeDescription = QString::fromUtf8("Comment[%1]").arg(locale);
+    m_localeNameShort = QString::fromUtf8("Name[%1]").arg(localeShort);
+    m_localeDescriptionShort =
+      QString::fromUtf8("Comment[%1]").arg(localeShort);
     m_defaultIcon =
-      QIcon::fromTheme(QStringLiteral("application-x-executable"));
+      QIcon::fromTheme(QString::fromUtf8("application-x-executable"));
 }
 
 DesktopAppData DesktopFileParser::parseDesktopFile(const QString& fileName,
@@ -49,59 +50,61 @@ DesktopAppData DesktopFileParser::parseDesktopFile(const QString& fileName,
     bool isApplication = false;
     QTextStream in(&file);
     // enter the desktop entry definition
-    while (!in.atEnd() && in.readLine() != QLatin1String("[Desktop Entry]")) {
+    while (!in.atEnd() &&
+           in.readLine() != QString::fromUtf8("[Desktop Entry]")) {
     }
     // start parsing
     while (!in.atEnd()) {
         QString line = in.readLine();
-        if (line.startsWith(QLatin1String("Icon"))) {
+        if (line.startsWith(QString::fromUtf8("Icon"))) {
             res.icon = QIcon::fromTheme(
-              line.mid(line.indexOf(QLatin1String("=")) + 1).trimmed(),
+              line.mid(line.indexOf(QString::fromUtf8("=")) + 1).trimmed(),
               m_defaultIcon);
-        } else if (!nameLocaleSet && line.startsWith(QLatin1String("Name"))) {
+        } else if (!nameLocaleSet &&
+                   line.startsWith(QString::fromUtf8("Name"))) {
             if (line.startsWith(m_localeName) ||
                 line.startsWith(m_localeNameShort)) {
                 res.name =
-                  line.mid(line.indexOf(QLatin1String("=")) + 1).trimmed();
+                  line.mid(line.indexOf(QString::fromUtf8("=")) + 1).trimmed();
                 nameLocaleSet = true;
-            } else if (line.startsWith(QLatin1String("Name="))) {
+            } else if (line.startsWith(QString::fromUtf8("Name="))) {
                 res.name =
-                  line.mid(line.indexOf(QLatin1String("=")) + 1).trimmed();
+                  line.mid(line.indexOf(QString::fromUtf8("=")) + 1).trimmed();
             }
         } else if (!descriptionLocaleSet &&
-                   line.startsWith(QLatin1String("Comment"))) {
+                   line.startsWith(QString::fromUtf8("Comment"))) {
             if (line.startsWith(m_localeDescription) ||
                 line.startsWith(m_localeDescriptionShort)) {
                 res.description =
-                  line.mid(line.indexOf(QLatin1String("=")) + 1).trimmed();
+                  line.mid(line.indexOf(QString::fromUtf8("=")) + 1).trimmed();
                 descriptionLocaleSet = true;
-            } else if (line.startsWith(QLatin1String("Comment="))) {
+            } else if (line.startsWith(QString::fromUtf8("Comment="))) {
                 res.description =
-                  line.mid(line.indexOf(QLatin1String("=")) + 1).trimmed();
+                  line.mid(line.indexOf(QString::fromUtf8("=")) + 1).trimmed();
             }
-        } else if (line.startsWith(QLatin1String("Exec"))) {
-            if (line.contains(QLatin1String("%"))) {
+        } else if (line.startsWith(QString::fromUtf8("Exec"))) {
+            if (line.contains(QString::fromUtf8("%"))) {
                 res.exec =
-                  line.mid(line.indexOf(QLatin1String("=")) + 1).trimmed();
+                  line.mid(line.indexOf(QString::fromUtf8("=")) + 1).trimmed();
             } else {
                 ok = false;
                 break;
             }
-        } else if (line.startsWith(QLatin1String("Type"))) {
-            if (line.contains(QLatin1String("Application"))) {
+        } else if (line.startsWith(QString::fromUtf8("Type"))) {
+            if (line.contains(QString::fromUtf8("Application"))) {
                 isApplication = true;
             }
-        } else if (line.startsWith(QLatin1String("Categories"))) {
-            res.categories = line.mid(line.indexOf(QLatin1String("=")) + 1)
-                               .split(QStringLiteral(";"));
-        } else if (line == QLatin1String("NoDisplay=true")) {
+        } else if (line.startsWith(QString::fromUtf8("Categories"))) {
+            res.categories = line.mid(line.indexOf(QString::fromUtf8("=")) + 1)
+                               .split(QString::fromUtf8(";"));
+        } else if (line == QString::fromUtf8("NoDisplay=true")) {
             ok = false;
             break;
-        } else if (line == QLatin1String("Terminal=true")) {
+        } else if (line == QString::fromUtf8("Terminal=true")) {
             res.showInTerminal = true;
         }
         // ignore the other entries
-        else if (line.startsWith(QLatin1String("["))) {
+        else if (line.startsWith(QString::fromUtf8("["))) {
             break;
         }
     }

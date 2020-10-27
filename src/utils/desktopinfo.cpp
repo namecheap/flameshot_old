@@ -21,31 +21,31 @@
 DesktopInfo::DesktopInfo()
 {
     auto e = QProcessEnvironment::systemEnvironment();
-    XDG_CURRENT_DESKTOP = e.value(QStringLiteral("XDG_CURRENT_DESKTOP"));
-    XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
-    WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
-    KDE_FULL_SESSION = e.value(QStringLiteral("KDE_FULL_SESSION"));
+    XDG_CURRENT_DESKTOP = e.value(QString::fromUtf8("XDG_CURRENT_DESKTOP"));
+    XDG_SESSION_TYPE = e.value(QString::fromUtf8("XDG_SESSION_TYPE"));
+    WAYLAND_DISPLAY = e.value(QString::fromUtf8("WAYLAND_DISPLAY"));
+    KDE_FULL_SESSION = e.value(QString::fromUtf8("KDE_FULL_SESSION"));
     GNOME_DESKTOP_SESSION_ID =
-      e.value(QStringLiteral("GNOME_DESKTOP_SESSION_ID"));
-    DESKTOP_SESSION = e.value(QStringLiteral("DESKTOP_SESSION"));
+      e.value(QString::fromUtf8("GNOME_DESKTOP_SESSION_ID"));
+    DESKTOP_SESSION = e.value(QString::fromUtf8("DESKTOP_SESSION"));
 }
 
 bool DesktopInfo::waylandDectected()
 {
-    return XDG_SESSION_TYPE == QLatin1String("wayland") ||
-           WAYLAND_DISPLAY.contains(QLatin1String("wayland"),
+    return XDG_SESSION_TYPE == QString::fromUtf8("wayland") ||
+           WAYLAND_DISPLAY.contains(QString::fromUtf8("wayland"),
                                     Qt::CaseInsensitive);
 }
 
 DesktopInfo::WM DesktopInfo::windowManager()
 {
     DesktopInfo::WM res = DesktopInfo::OTHER;
-    if (XDG_CURRENT_DESKTOP.contains(QLatin1String("GNOME"),
+    if (XDG_CURRENT_DESKTOP.contains(QString::fromUtf8("GNOME"),
                                      Qt::CaseInsensitive) ||
         !GNOME_DESKTOP_SESSION_ID.isEmpty()) {
         res = DesktopInfo::GNOME;
     } else if (!KDE_FULL_SESSION.isEmpty() ||
-               DESKTOP_SESSION == QLatin1String("kde-plasma")) {
+               DESKTOP_SESSION == QString::fromUtf8("kde-plasma")) {
         res = DesktopInfo::KDE;
     }
     return res;

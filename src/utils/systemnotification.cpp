@@ -16,9 +16,9 @@ SystemNotification::SystemNotification(QObject* parent)
   : QObject(parent)
 {
     m_interface =
-      new QDBusInterface(QStringLiteral("org.freedesktop.Notifications"),
-                         QStringLiteral("/org/freedesktop/Notifications"),
-                         QStringLiteral("org.freedesktop.Notifications"),
+      new QDBusInterface(QString::fromUtf8("org.freedesktop.Notifications"),
+                         QString::fromUtf8("/org/freedesktop/Notifications"),
+                         QString::fromUtf8("org.freedesktop.Notifications"),
                          QDBusConnection::sessionBus(),
                          this);
 }
@@ -51,7 +51,7 @@ void SystemNotification::sendMessage(const QString& text,
     if (!savePath.isEmpty()) {
         QUrl fullPath = QUrl::fromLocalFile(savePath);
         // allows the notification to be dragged and dropped
-        hintsMap[QStringLiteral("x-kde-urls")] =
+        hintsMap[QString::fromUtf8("x-kde-urls")] =
           QStringList({ fullPath.toString() });
     }
     args << (qAppName())                 // appname
@@ -63,7 +63,7 @@ void SystemNotification::sendMessage(const QString& text,
          << hintsMap                     // hints
          << timeout;                     // timeout
     m_interface->callWithArgumentList(
-      QDBus::AutoDetect, QStringLiteral("Notify"), args);
+      QDBus::AutoDetect, QString::fromUtf8("Notify"), args);
 #else
     auto c = Controller::getInstance();
     c->sendTrayNotification(text, title, timeout);

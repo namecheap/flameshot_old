@@ -61,7 +61,7 @@ AppLauncherWidget::AppLauncherWidget(const QPixmap& p, QWidget* parent)
     QDir appsDirLocal(dirLocal);
     m_parser.processDirectory(appsDirLocal);
 
-    QString dir = QStringLiteral("/usr/share/applications/");
+    QString dir = QString::fromUtf8("/usr/share/applications/");
     QDir appsDir(dir);
     m_parser.processDirectory(appsDir);
 
@@ -187,9 +187,9 @@ void AppLauncherWidget::initListWidget()
         addAppsToListWidget(itemsWidget, appList);
 
         m_tabWidget->addTab(
-          itemsWidget, QIcon::fromTheme(iconName), QLatin1String(""));
+          itemsWidget, QIcon::fromTheme(iconName), QString::fromUtf8(""));
         m_tabWidget->setTabToolTip(m_tabWidget->count(), cat);
-        if (cat == QLatin1String("Graphics")) {
+        if (cat == QString::fromUtf8("Graphics")) {
             m_tabWidget->setCurrentIndex(m_tabWidget->count() - 1);
         }
     }
@@ -214,8 +214,8 @@ void AppLauncherWidget::initAppMap()
     // Unify multimedia.
     QVector<DesktopAppData> multimediaList;
     QStringList multimediaNames;
-    multimediaNames << QStringLiteral("AudioVideo") << QStringLiteral("Audio")
-                    << QStringLiteral("Video");
+    multimediaNames << QString::fromUtf8("AudioVideo")
+                    << QString::fromUtf8("Audio") << QString::fromUtf8("Video");
     for (const QString& name : multimediaNames) {
         if (!m_appsMap.contains(name)) {
             continue;
@@ -227,7 +227,7 @@ void AppLauncherWidget::initAppMap()
         }
         m_appsMap.remove(name);
     }
-    m_appsMap.insert(QStringLiteral("Multimedia"), multimediaList);
+    m_appsMap.insert(QString::fromUtf8("Multimedia"), multimediaList);
 }
 
 void AppLauncherWidget::configureListView(QListWidget* widget)

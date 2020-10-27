@@ -137,7 +137,7 @@ void GeneneralConf::importConfiguration()
 void GeneneralConf::exportFileConfiguration()
 {
     QString fileName = QFileDialog::getSaveFileName(
-      this, tr("Save File"), QStringLiteral("flameshot.conf"));
+      this, tr("Save File"), QString::fromUtf8("flameshot.conf"));
 
     // Cancel button
     if (fileName.isNull()) {
@@ -343,7 +343,7 @@ void GeneneralConf::initSaveAfterCopy()
       QStandardPaths::writableLocation(QStandardPaths::PicturesLocation), this);
     m_savePath->setDisabled(true);
     QString foreground = this->palette().foreground().color().name();
-    m_savePath->setStyleSheet(QStringLiteral("color: %1").arg(foreground));
+    m_savePath->setStyleSheet(QString::fromUtf8("color: %1").arg(foreground));
     pathLayout->addWidget(m_savePath);
 
     m_changeSaveButton = new QPushButton(tr("Change..."), this);

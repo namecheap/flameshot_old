@@ -40,7 +40,7 @@ public:
 
     CaptureRequest(CaptureMode mode,
                    const uint delay = 0,
-                   const QString& path = QLatin1String(""),
+                   const QString& path = QString::fromUtf8(""),
                    const QVariant& data = QVariant(),
                    ExportTask tasks = NO_TASK);
 

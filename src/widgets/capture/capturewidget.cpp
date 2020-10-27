@@ -1006,7 +1006,7 @@ void CaptureWidget::updateSizeIndicator()
 {
     if (m_sizeIndButton) {
         const QRect& selection = extendedSelection();
-        m_sizeIndButton->setText(QStringLiteral("%1\n%2")
+        m_sizeIndButton->setText(QString::fromUtf8("%1\n%2")
                                    .arg(selection.width())
                                    .arg(selection.height()));
     }

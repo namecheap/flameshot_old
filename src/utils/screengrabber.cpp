@@ -48,11 +48,11 @@ QPixmap ScreenGrabber::grabEntireDesktop(bool& ok)
                   FileNameHandler().generateAbsolutePath(QDir::tempPath()) +
                   ".png";
                 QDBusInterface gnomeInterface(
-                  QStringLiteral("org.gnome.Shell"),
-                  QStringLiteral("/org/gnome/Shell/Screenshot"),
-                  QStringLiteral("org.gnome.Shell.Screenshot"));
+                  QString::fromUtf8("org.gnome.Shell"),
+                  QString::fromUtf8("/org/gnome/Shell/Screenshot"),
+                  QString::fromUtf8("org.gnome.Shell.Screenshot"));
                 QDBusReply<bool> reply = gnomeInterface.call(
-                  QStringLiteral("Screenshot"), false, false, path);
+                  QString::fromUtf8("Screenshot"), false, false, path);
                 if (reply.value()) {
                     res = QPixmap(path);
                     QFile dbusResult(path);
@@ -65,11 +65,11 @@ QPixmap ScreenGrabber::grabEntireDesktop(bool& ok)
             case DesktopInfo::KDE: {
                 // https://github.com/KDE/spectacle/blob/517a7baf46a4ca0a45f32fd3f2b1b7210b180134/src/PlatformBackends/KWinWaylandImageGrabber.cpp#L145
                 QDBusInterface kwinInterface(
-                  QStringLiteral("org.kde.KWin"),
-                  QStringLiteral("/Screenshot"),
-                  QStringLiteral("org.kde.kwin.Screenshot"));
+                  QString::fromUtf8("org.kde.KWin"),
+                  QString::fromUtf8("/Screenshot"),
+                  QString::fromUtf8("org.kde.kwin.Screenshot"));
                 QDBusReply<QString> reply =
-                  kwinInterface.call(QStringLiteral("screenshotFullscreen"));
+                  kwinInterface.call(QString::fromUtf8("screenshotFullscreen"));
                 res = QPixmap(reply.value());
                 if (!res.isNull()) {
                     QFile dbusResult(reply.value());

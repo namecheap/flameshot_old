@@ -49,7 +49,7 @@ bool StorageManager::storageLocked()
     ImgS3Settings imgS3Settings;
     if (imgS3Settings.settings()->contains("STORAGE_LOCK")) {
         res = imgS3Settings.settings()
-                ->value(QStringLiteral("STORAGE_LOCK"))
+                ->value(QString::fromUtf8("STORAGE_LOCK"))
                 .toBool();
     }
     return res;

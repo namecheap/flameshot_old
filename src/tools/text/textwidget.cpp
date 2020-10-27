@@ -20,7 +20,7 @@
 TextWidget::TextWidget(QWidget* parent)
   : QTextEdit(parent)
 {
-    setStyleSheet(QStringLiteral("TextWidget { background: transparent; }"));
+    setStyleSheet(QString::fromUtf8("TextWidget { background: transparent; }"));
     connect(this, &TextWidget::textChanged, this, &TextWidget::adjustSize);
     connect(this, &TextWidget::textChanged, this, &TextWidget::emitTextUpdated);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -68,7 +68,7 @@ void TextWidget::setFontPointSize(qreal s)
 void TextWidget::setTextColor(const QColor& c)
 {
     QString s(
-      QStringLiteral("TextWidget { background: transparent; color: %1; }"));
+      QString::fromUtf8("TextWidget { background: transparent; color: %1; }"));
     setStyleSheet(s.arg(c.name()));
 }
 

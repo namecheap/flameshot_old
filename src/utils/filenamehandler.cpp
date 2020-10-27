@@ -17,6 +17,7 @@
 
 #include "filenamehandler.h"
 #include "src/utils/confighandler.h"
+#include <QDebug>
 #include <QDir>
 #include <QStandardPaths>
 #include <ctime>
@@ -38,7 +39,7 @@ QString FileNameHandler::parseFilename(const QString& name)
     QString res = name;
     // remove trailing characters '%' in the pattern
     if (name.isEmpty()) {
-        res = QLatin1String("%F_%H-%M");
+        res = QString::fromUtf8("%F_%H-%M");
     }
     while (res.endsWith('%')) {
         res.chop(1);
@@ -48,12 +49,14 @@ QString FileNameHandler::parseFilename(const QString& name)
     char* tempData = QStringTocharArr(res);
     char data[MAX_CHARACTERS] = { 0 };
     std::strftime(data, sizeof(data), tempData, std::localtime(&t));
-    res = QString::fromLocal8Bit(data, (int)strlen(data));
+    res = QString::fromUtf8(data, (int)strlen(data));
     free(tempData);
 
     // add the parsed pattern in a correct format for the filesystem
-    res = res.replace(QLatin1String("/"), QStringLiteral("⁄"))
-            .replace(QLatin1String(":"), QLatin1String("-"));
+    res = res.replace(QString::fromUtf8("/"), QString::fromUtf8("⁄"))
+            .replace(QString::fromUtf8(":"), QString::fromUtf8("-"));
+
+    qDebug() << "res" << res;
     return res;
 }
 
@@ -92,26 +95,26 @@ QString FileNameHandler::absoluteSavePath()
 
 QString FileNameHandler::charArrToQString(const char* c)
 {
-    return QString::fromLocal8Bit(c, MAX_CHARACTERS);
+    return QString::fromUtf8(c, MAX_CHARACTERS);
 }
 
 char* FileNameHandler::QStringTocharArr(const QString& s)
 {
-    QByteArray ba = s.toLocal8Bit();
+    QByteArray ba = s.toUtf8();
     return const_cast<char*>(strdup(ba.constData()));
 }
 
 void FileNameHandler::fixPath(QString& directory, QString& filename)
 {
     // add '/' at the end of the directory
-    if (!directory.endsWith(QLatin1String("/"))) {
-        directory += QLatin1String("/");
+    if (!directory.endsWith(QString::fromUtf8("/"))) {
+        directory += QString::fromUtf8("/");
     }
     // add numeration in case of repeated filename in the directory
     // find unused name adding _n where n is a number
     QFileInfo checkFile(directory + filename + ".png");
     if (checkFile.exists()) {
-        filename += QLatin1String("_");
+        filename += QString::fromUtf8("_");
         int i = 1;
         while (true) {
             checkFile.setFile(directory + filename + QString::number(i) +

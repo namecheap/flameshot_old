@@ -126,7 +126,8 @@ void UtilityPanel::initInternalPanel()
     QColor bgColor = palette().window().color();
     bgColor.setAlphaF(0.0);
     m_internalPanel->setStyleSheet(
-      QStringLiteral("QScrollArea {background-color: %1}").arg(bgColor.name()));
+      QString::fromUtf8("QScrollArea {background-color: %1}")
+        .arg(bgColor.name()));
     m_internalPanel->hide();
 
     m_hide = new QPushButton();

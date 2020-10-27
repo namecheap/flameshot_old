@@ -33,14 +33,14 @@ ConfigHandler::ConfigHandler()
 QVector<CaptureToolButton::ButtonType> ConfigHandler::getButtons()
 {
     QVector<CaptureToolButton::ButtonType> buttons;
-    if (m_settings.contains(QStringLiteral("buttons"))) {
+    if (m_settings.contains(QString::fromUtf8("buttons"))) {
         // TODO: remove toList in v1.0
-        QVector<int> buttonsInt = m_settings.value(QStringLiteral("buttons"))
+        QVector<int> buttonsInt = m_settings.value(QString::fromUtf8("buttons"))
                                     .value<QList<int>>()
                                     .toVector();
         bool modified = normalizeButtons(buttonsInt);
         if (modified) {
-            m_settings.setValue(QStringLiteral("buttons"),
+            m_settings.setValue(QString::fromUtf8("buttons"),
                                 QVariant::fromValue(buttonsInt.toList()));
         }
         buttons = fromIntToButton(buttonsInt);
@@ -79,7 +79,7 @@ void ConfigHandler::setButtons(
     QVector<int> l = fromButtonToInt(buttons);
     normalizeButtons(l);
     // TODO: remove toList in v1.0
-    m_settings.setValue(QStringLiteral("buttons"),
+    m_settings.setValue(QString::fromUtf8("buttons"),
                         QVariant::fromValue(l.toList()));
 }
 
@@ -94,9 +94,9 @@ QVector<QColor> ConfigHandler::getUserColors()
         QColor()
     };
 
-    if (m_settings.contains(QStringLiteral("userColors"))) {
+    if (m_settings.contains(QString::fromUtf8("userColors"))) {
         for (const QString& hex :
-             m_settings.value(QStringLiteral("userColors")).toStringList()) {
+             m_settings.value(QString::fromUtf8("userColors")).toStringList()) {
             if (QColor::isValidColor(hex)) {
                 colors.append(QColor(hex));
             }
@@ -120,39 +120,39 @@ void ConfigHandler::setUserColors(const QVector<QColor>& l)
         hexColors.append(color.name());
     }
 
-    m_settings.setValue(QStringLiteral("userColors"),
+    m_settings.setValue(QString::fromUtf8("userColors"),
                         QVariant::fromValue(hexColors));
 }
 
 QString ConfigHandler::savePath()
 {
-    return m_settings.value(QStringLiteral("savePath")).toString();
+    return m_settings.value(QString::fromUtf8("savePath")).toString();
 }
 
 void ConfigHandler::setSavePath(const QString& savePath)
 {
-    m_settings.setValue(QStringLiteral("savePath"), savePath);
+    m_settings.setValue(QString::fromUtf8("savePath"), savePath);
 }
 
 bool ConfigHandler::savePathFixed()
 {
-    if (!m_settings.contains(QStringLiteral("savePathFixed"))) {
-        m_settings.setValue(QStringLiteral("savePathFixed"), false);
+    if (!m_settings.contains(QString::fromUtf8("savePathFixed"))) {
+        m_settings.setValue(QString::fromUtf8("savePathFixed"), false);
     }
-    return m_settings.value(QStringLiteral("savePathFixed")).toBool();
+    return m_settings.value(QString::fromUtf8("savePathFixed")).toBool();
 }
 
 void ConfigHandler::setSavePathFixed(bool savePathFixed)
 {
-    m_settings.setValue(QStringLiteral("savePathFixed"), savePathFixed);
+    m_settings.setValue(QString::fromUtf8("savePathFixed"), savePathFixed);
 }
 
 QColor ConfigHandler::uiMainColorValue()
 {
     QColor res = QColor(116, 0, 150);
 
-    if (m_settings.contains(QStringLiteral("uiColor"))) {
-        QString hex = m_settings.value(QStringLiteral("uiColor")).toString();
+    if (m_settings.contains(QString::fromUtf8("uiColor"))) {
+        QString hex = m_settings.value(QString::fromUtf8("uiColor")).toString();
 
         if (QColor::isValidColor(hex)) {
             res = QColor(hex);
@@ -163,16 +163,16 @@ QColor ConfigHandler::uiMainColorValue()
 
 void ConfigHandler::setUIMainColor(const QColor& c)
 {
-    m_settings.setValue(QStringLiteral("uiColor"), c.name());
+    m_settings.setValue(QString::fromUtf8("uiColor"), c.name());
 }
 
 QColor ConfigHandler::uiContrastColorValue()
 {
     QColor res = QColor(39, 0, 50);
 
-    if (m_settings.contains(QStringLiteral("contrastUiColor"))) {
+    if (m_settings.contains(QString::fromUtf8("contrastUiColor"))) {
         QString hex =
-          m_settings.value(QStringLiteral("contrastUiColor")).toString();
+          m_settings.value(QString::fromUtf8("contrastUiColor")).toString();
 
         if (QColor::isValidColor(hex)) {
             res = QColor(hex);
@@ -184,15 +184,16 @@ QColor ConfigHandler::uiContrastColorValue()
 
 void ConfigHandler::setUIContrastColor(const QColor& c)
 {
-    m_settings.setValue(QStringLiteral("contrastUiColor"), c.name());
+    m_settings.setValue(QString::fromUtf8("contrastUiColor"), c.name());
 }
 
 QColor ConfigHandler::drawColorValue()
 {
     QColor res(Qt::red);
 
-    if (m_settings.contains(QStringLiteral("drawColor"))) {
-        QString hex = m_settings.value(QStringLiteral("drawColor")).toString();
+    if (m_settings.contains(QString::fromUtf8("drawColor"))) {
+        QString hex =
+          m_settings.value(QString::fromUtf8("drawColor")).toString();
 
         if (QColor::isValidColor(hex)) {
             res = QColor(hex);
@@ -204,104 +205,105 @@ QColor ConfigHandler::drawColorValue()
 
 void ConfigHandler::setDrawColor(const QColor& c)
 {
-    m_settings.setValue(QStringLiteral("drawColor"), c.name());
+    m_settings.setValue(QString::fromUtf8("drawColor"), c.name());
 }
 
 bool ConfigHandler::showHelpValue()
 {
     bool res = true;
-    if (m_settings.contains(QStringLiteral("showHelp"))) {
-        res = m_settings.value(QStringLiteral("showHelp")).toBool();
+    if (m_settings.contains(QString::fromUtf8("showHelp"))) {
+        res = m_settings.value(QString::fromUtf8("showHelp")).toBool();
     }
     return res;
 }
 
 void ConfigHandler::setShowHelp(const bool showHelp)
 {
-    m_settings.setValue(QStringLiteral("showHelp"), showHelp);
+    m_settings.setValue(QString::fromUtf8("showHelp"), showHelp);
 }
 
 bool ConfigHandler::showSidePanelButtonValue()
 {
-    return m_settings.value(QStringLiteral("showSidePanelButton"), true)
+    return m_settings.value(QString::fromUtf8("showSidePanelButton"), true)
       .toBool();
 }
 
 void ConfigHandler::setShowSidePanelButton(const bool showSidePanelButton)
 {
-    m_settings.setValue(QStringLiteral("showSidePanelButton"),
+    m_settings.setValue(QString::fromUtf8("showSidePanelButton"),
                         showSidePanelButton);
 }
 
 bool ConfigHandler::desktopNotificationValue()
 {
     bool res = true;
-    if (m_settings.contains(QStringLiteral("showDesktopNotification"))) {
-        res =
-          m_settings.value(QStringLiteral("showDesktopNotification")).toBool();
+    if (m_settings.contains(QString::fromUtf8("showDesktopNotification"))) {
+        res = m_settings.value(QString::fromUtf8("showDesktopNotification"))
+                .toBool();
     }
     return res;
 }
 
 void ConfigHandler::setDesktopNotification(const bool showDesktopNotification)
 {
-    m_settings.setValue(QStringLiteral("showDesktopNotification"),
+    m_settings.setValue(QString::fromUtf8("showDesktopNotification"),
                         showDesktopNotification);
 }
 
 QString ConfigHandler::filenamePatternValue()
 {
-    return m_settings.value(QStringLiteral("filenamePattern")).toString();
+    return m_settings.value(QString::fromUtf8("filenamePattern")).toString();
 }
 
 void ConfigHandler::setFilenamePattern(const QString& pattern)
 {
-    return m_settings.setValue(QStringLiteral("filenamePattern"), pattern);
+    return m_settings.setValue(QString::fromUtf8("filenamePattern"), pattern);
 }
 
 bool ConfigHandler::disabledTrayIconValue()
 {
     bool res = false;
-    if (m_settings.contains(QStringLiteral("disabledTrayIcon"))) {
-        res = m_settings.value(QStringLiteral("disabledTrayIcon")).toBool();
+    if (m_settings.contains(QString::fromUtf8("disabledTrayIcon"))) {
+        res = m_settings.value(QString::fromUtf8("disabledTrayIcon")).toBool();
     }
     return res;
 }
 
 void ConfigHandler::setDisabledTrayIcon(const bool disabledTrayIcon)
 {
-    m_settings.setValue(QStringLiteral("disabledTrayIcon"), disabledTrayIcon);
+    m_settings.setValue(QString::fromUtf8("disabledTrayIcon"),
+                        disabledTrayIcon);
 }
 
 int ConfigHandler::drawThicknessValue()
 {
     int res = 0;
-    if (m_settings.contains(QStringLiteral("drawThickness"))) {
-        res = m_settings.value(QStringLiteral("drawThickness")).toInt();
+    if (m_settings.contains(QString::fromUtf8("drawThickness"))) {
+        res = m_settings.value(QString::fromUtf8("drawThickness")).toInt();
     }
     return res;
 }
 
 void ConfigHandler::setdrawThickness(const int thickness)
 {
-    m_settings.setValue(QStringLiteral("drawThickness"), thickness);
+    m_settings.setValue(QString::fromUtf8("drawThickness"), thickness);
 }
 
 bool ConfigHandler::keepOpenAppLauncherValue()
 {
-    return m_settings.value(QStringLiteral("keepOpenAppLauncher")).toBool();
+    return m_settings.value(QString::fromUtf8("keepOpenAppLauncher")).toBool();
 }
 
 void ConfigHandler::setKeepOpenAppLauncher(const bool keepOpen)
 {
-    m_settings.setValue(QStringLiteral("keepOpenAppLauncher"), keepOpen);
+    m_settings.setValue(QString::fromUtf8("keepOpenAppLauncher"), keepOpen);
 }
 
 bool ConfigHandler::startupLaunchValue()
 {
     bool res = true;
-    if (m_settings.contains(QStringLiteral("startupLaunch"))) {
-        res = m_settings.value(QStringLiteral("startupLaunch")).toBool();
+    if (m_settings.contains(QString::fromUtf8("startupLaunch"))) {
+        res = m_settings.value(QString::fromUtf8("startupLaunch")).toBool();
     }
     if (res != verifyLaunchFile()) {
         setStartupLaunch(res);
@@ -374,30 +376,32 @@ void ConfigHandler::setStartupLaunch(const bool start)
         bootUpPath.endGroup();
     }
 #endif
-    m_settings.setValue(QStringLiteral("startupLaunch"), start);
+    m_settings.setValue(QString::fromUtf8("startupLaunch"), start);
 }
 
 bool ConfigHandler::showStartupLaunchMessage()
 {
-    if (!m_settings.contains(QStringLiteral("showStartupLaunchMessage"))) {
-        m_settings.setValue(QStringLiteral("showStartupLaunchMessage"), true);
+    if (!m_settings.contains(QString::fromUtf8("showStartupLaunchMessage"))) {
+        m_settings.setValue(QString::fromUtf8("showStartupLaunchMessage"),
+                            true);
     }
-    return m_settings.value(QStringLiteral("showStartupLaunchMessage"))
+    return m_settings.value(QString::fromUtf8("showStartupLaunchMessage"))
       .toBool();
 }
 
 void ConfigHandler::setShowStartupLaunchMessage(
   const bool showStartupLaunchMessage)
 {
-    m_settings.setValue(QStringLiteral("showStartupLaunchMessage"),
+    m_settings.setValue(QString::fromUtf8("showStartupLaunchMessage"),
                         showStartupLaunchMessage);
 }
 
 int ConfigHandler::contrastOpacityValue()
 {
     int opacity = 190;
-    if (m_settings.contains(QStringLiteral("contrastOpacity"))) {
-        opacity = m_settings.value(QStringLiteral("contrastOpacity")).toInt();
+    if (m_settings.contains(QString::fromUtf8("contrastOpacity"))) {
+        opacity =
+          m_settings.value(QString::fromUtf8("contrastOpacity")).toInt();
         opacity = qBound(0, opacity, 255);
     }
     return opacity;
@@ -405,65 +409,65 @@ int ConfigHandler::contrastOpacityValue()
 
 void ConfigHandler::setContrastOpacity(const int transparency)
 {
-    m_settings.setValue(QStringLiteral("contrastOpacity"), transparency);
+    m_settings.setValue(QString::fromUtf8("contrastOpacity"), transparency);
 }
 
 bool ConfigHandler::closeAfterScreenshotValue()
 {
-    return m_settings.value(QStringLiteral("closeAfterScreenshot")).toBool();
+    return m_settings.value(QString::fromUtf8("closeAfterScreenshot")).toBool();
 }
 
 void ConfigHandler::setCloseAfterScreenshot(const bool close)
 {
-    m_settings.setValue(QStringLiteral("closeAfterScreenshot"), close);
+    m_settings.setValue(QString::fromUtf8("closeAfterScreenshot"), close);
 }
 
 bool ConfigHandler::copyAndCloseAfterUploadEnabled()
 {
     bool res = true;
-    if (m_settings.contains(QStringLiteral("copyAndCloseAfterUpload"))) {
-        res =
-          m_settings.value(QStringLiteral("copyAndCloseAfterUpload")).toBool();
+    if (m_settings.contains(QString::fromUtf8("copyAndCloseAfterUpload"))) {
+        res = m_settings.value(QString::fromUtf8("copyAndCloseAfterUpload"))
+                .toBool();
     }
     return res;
 }
 
 void ConfigHandler::setCopyAndCloseAfterUploadEnabled(const bool value)
 {
-    m_settings.setValue(QStringLiteral("copyAndCloseAfterUpload"), value);
+    m_settings.setValue(QString::fromUtf8("copyAndCloseAfterUpload"), value);
 }
 bool ConfigHandler::saveAfterCopyValue()
 {
-    return m_settings.value(QStringLiteral("saveAfterCopy")).toBool();
+    return m_settings.value(QString::fromUtf8("saveAfterCopy")).toBool();
 }
 
 void ConfigHandler::setSaveAfterCopy(const bool save)
 {
-    m_settings.setValue(QStringLiteral("saveAfterCopy"), save);
+    m_settings.setValue(QString::fromUtf8("saveAfterCopy"), save);
 }
 
 bool ConfigHandler::copyPathAfterSaveEnabled()
 {
     bool res = false;
-    if (m_settings.contains(QStringLiteral("copyPathAfterSave"))) {
-        res = m_settings.value(QStringLiteral("copyPathAfterSave")).toBool();
+    if (m_settings.contains(QString::fromUtf8("copyPathAfterSave"))) {
+        res = m_settings.value(QString::fromUtf8("copyPathAfterSave")).toBool();
     }
     return res;
 }
 
 void ConfigHandler::setCopyPathAfterSaveEnabled(const bool value)
 {
-    m_settings.setValue(QStringLiteral("copyPathAfterSave"), value);
+    m_settings.setValue(QString::fromUtf8("copyPathAfterSave"), value);
 }
 
 void ConfigHandler::setUploadStorage(const QString& uploadStorage)
 {
     StorageManager storageManager;
     if (storageManager.storageLocked()) {
-        m_settings.setValue(QStringLiteral("uploadStorage"),
+        m_settings.setValue(QString::fromUtf8("uploadStorage"),
                             storageManager.storageDefault());
     } else {
-        m_settings.setValue(QStringLiteral("uploadStorage"), uploadStorage);
+        m_settings.setValue(QString::fromUtf8("uploadStorage"), uploadStorage);
     }
 }
 
@@ -476,7 +480,7 @@ const QString& ConfigHandler::uploadStorage()
     }
 
     // get storage
-    m_strRes = m_settings.value(QStringLiteral("uploadStorage")).toString();
+    m_strRes = m_settings.value(QString::fromUtf8("uploadStorage")).toString();
     if (m_strRes.isEmpty()) {
         StorageManager storageManager;
         m_strRes = storageManager.storageDefault();
@@ -487,12 +491,12 @@ const QString& ConfigHandler::uploadStorage()
 
 QString ConfigHandler::saveAfterCopyPathValue()
 {
-    return m_settings.value(QStringLiteral("saveAfterCopyPath")).toString();
+    return m_settings.value(QString::fromUtf8("saveAfterCopyPath")).toString();
 }
 
 void ConfigHandler::setSaveAfterCopyPath(const QString& path)
 {
-    m_settings.setValue(QStringLiteral("saveAfterCopyPath"), path);
+    m_settings.setValue(QString::fromUtf8("saveAfterCopyPath"), path);
 }
 
 void ConfigHandler::setDefaults()
@@ -508,7 +512,7 @@ void ConfigHandler::setAllTheButtons()
         buttons << static_cast<int>(t);
     }
     // TODO: remove toList in v1.0
-    m_settings.setValue(QStringLiteral("buttons"),
+    m_settings.setValue(QString::fromUtf8("buttons"),
                         QVariant::fromValue(buttons.toList()));
 }
 

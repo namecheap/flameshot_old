@@ -168,7 +168,7 @@ void HistoryWidget::addLine(const QString& path, const QString& fileName)
         } else if (unpackFileName.type.compare(SCREENSHOT_STORAGE_TYPE_IMGUR) ==
                    0) {
             QDesktopServices::openUrl(
-              QUrl(QStringLiteral("https://imgur.com/delete/%1")
+              QUrl(QString::fromUtf8("https://imgur.com/delete/%1")
                      .arg(unpackFileName.token)));
             removeCacheFile(fullFileName);
             removeLayoutItem(phbl);
