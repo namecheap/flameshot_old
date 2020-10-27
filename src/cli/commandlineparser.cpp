@@ -30,9 +30,9 @@ QTextStream err(stderr);
 
 auto versionOption =
   CommandOption({ "v", "version" },
-                QStringLiteral("Displays version information"));
+                QString::fromUtf8("Displays version information"));
 auto helpOption =
-  CommandOption({ "h", "help" }, QStringLiteral("Displays this help"));
+  CommandOption({ "h", "help" }, QString::fromUtf8("Displays this help"));
 
 QString optionsToString(const QList<CommandOption>& options,
                         const QList<CommandArgument>& arguments)
@@ -43,10 +43,11 @@ QString optionsToString(const QList<CommandOption>& options,
     // of every option at the same horizontal character position.
     for (auto const& option : options) {
         QStringList dashedOptions = option.dashedNames();
-        QString joinedDashedOptions = dashedOptions.join(QStringLiteral(", "));
+        QString joinedDashedOptions =
+          dashedOptions.join(QString::fromUtf8(", "));
         if (!option.valueName().isEmpty()) {
             joinedDashedOptions +=
-              QStringLiteral(" <%1>").arg(option.valueName());
+              QString::fromUtf8(" <%1>").arg(option.valueName());
         }
         if (joinedDashedOptions.length() > size) {
             size = joinedDashedOptions.length();
@@ -63,22 +64,22 @@ QString optionsToString(const QList<CommandOption>& options,
     if (!dashedOptionList.isEmpty()) {
         result += QObject::tr("Options") + ":\n";
         QString linePadding =
-          QStringLiteral(" ").repeated(size + 4).prepend("\n");
+          QString::fromUtf8(" ").repeated(size + 4).prepend("\n");
         for (int i = 0; i < options.length(); ++i) {
-            result += QStringLiteral("  %1  %2\n")
+            result += QString::fromUtf8("  %1  %2\n")
                         .arg(dashedOptionList.at(i).leftJustified(size, ' '))
                         .arg(options.at(i).description().replace(
-                          QLatin1String("\n"), linePadding));
+                          QString::fromUtf8("\n"), linePadding));
         }
         if (!arguments.isEmpty()) {
-            result += QLatin1String("\n");
+            result += QString::fromUtf8("\n");
         }
     }
     if (!arguments.isEmpty()) {
         result += QObject::tr("Arguments") + ":\n";
     }
     for (int i = 0; i < arguments.length(); ++i) {
-        result += QStringLiteral("  %1  %2\n")
+        result += QString::fromUtf8("  %1  %2\n")
                     .arg(arguments.at(i).name().leftJustified(size, ' '))
                     .arg(arguments.at(i).description());
     }
@@ -110,7 +111,7 @@ bool CommandLineParser::processArgs(const QStringList& args,
         --actualIt;
     } else {
         ok = false;
-        out << QStringLiteral("'%1' is not a valid argument.").arg(argument);
+        out << QString::fromUtf8("'%1' is not a valid argument.").arg(argument);
     }
     return ok;
 }
@@ -122,17 +123,17 @@ bool CommandLineParser::processOptions(const QStringList& args,
     QString arg = *actualIt;
     bool ok = true;
     // track values
-    int equalsPos = arg.indexOf(QLatin1String("="));
+    int equalsPos = arg.indexOf(QString::fromUtf8("="));
     QString valueStr;
     if (equalsPos != -1) {
         valueStr = arg.mid(equalsPos + 1); // right
         arg = arg.mid(0, equalsPos);       // left
     }
     // check format -x --xx...
-    bool isDoubleDashed = arg.startsWith(QLatin1String("--"));
+    bool isDoubleDashed = arg.startsWith(QString::fromUtf8("--"));
     ok = isDoubleDashed ? arg.length() > 3 : arg.length() == 2;
     if (!ok) {
-        out << QStringLiteral("the option %1 has a wrong format.").arg(arg);
+        out << QString::fromUtf8("the option %1 has a wrong format.").arg(arg);
         return ok;
     }
     arg = isDoubleDashed ? arg.remove(0, 2) : arg.remove(0, 1);
@@ -150,8 +151,8 @@ bool CommandLineParser::processOptions(const QStringList& args,
         if (argName.isEmpty()) {
             argName = qApp->applicationName();
         }
-        out << QStringLiteral("the option '%1' is not a valid option "
-                              "for the argument '%2'.")
+        out << QString::fromUtf8("the option '%1' is not a valid option "
+                                 "for the argument '%2'.")
                  .arg(arg)
                  .arg(argName);
         ok = false;
@@ -161,8 +162,9 @@ bool CommandLineParser::processOptions(const QStringList& args,
     CommandOption option = *optionIt;
     bool requiresValue = !(option.valueName().isEmpty());
     if (!requiresValue && equalsPos != -1) {
-        out << QStringLiteral("the option '%1' contains a '=' and it doesn't "
-                              "require a value.")
+        out << QString::fromUtf8(
+                 "the option '%1' contains a '=' and it doesn't "
+                 "require a value.")
                  .arg(arg);
         ok = false;
         return ok;
@@ -171,7 +173,7 @@ bool CommandLineParser::processOptions(const QStringList& args,
         if (actualIt + 1 != args.cend()) {
             ++actualIt;
         } else {
-            out << QStringLiteral("Expected value after the option '%1'.")
+            out << QString::fromUtf8("Expected value after the option '%1'.")
                      .arg(arg);
             ok = false;
             return ok;
@@ -183,8 +185,8 @@ bool CommandLineParser::processOptions(const QStringList& args,
         ok = option.checkValue(valueStr);
         if (!ok) {
             QString err = option.errorMsg();
-            if (!err.endsWith(QLatin1String(".")))
-                err += QLatin1String(".");
+            if (!err.endsWith(QString::fromUtf8(".")))
+                err += QString::fromUtf8(".");
             out << err;
             return ok;
         }
@@ -219,7 +221,7 @@ bool CommandLineParser::parse(const QStringList& args)
     // process the other args
     for (; it != args.cend() && ok; ++it) {
         const QString& value = *it;
-        if (value.startsWith(QLatin1String("-"))) {
+        if (value.startsWith(QString::fromUtf8("-"))) {
             ok = processOptions(args, it, actualNode);
 
         } else {
@@ -227,7 +229,7 @@ bool CommandLineParser::parse(const QStringList& args)
         }
     }
     if (!ok && !m_generalErrorMessage.isEmpty()) {
-        out << QStringLiteral(" %1\n").arg(m_generalErrorMessage);
+        out << QString::fromUtf8(" %1\n").arg(m_generalErrorMessage);
     }
     return ok;
 }
@@ -336,8 +338,8 @@ void CommandLineParser::printHelp(QStringList args, const Node* node)
     QString argText =
       node->subNodes.isEmpty() ? "" : "[" + QObject::tr("arguments") + "]";
     helpText += QObject::tr("Usage") + ": %1 [%2-" + QObject::tr("options") +
-                QStringLiteral("] %3\n\n")
-                  .arg(args.join(QStringLiteral(" ")))
+                QString::fromUtf8("] %3\n\n")
+                  .arg(args.join(QString::fromUtf8(" ")))
                   .arg(argName)
                   .arg(argText);
 

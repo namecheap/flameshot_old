@@ -22,12 +22,12 @@
 
 const QString PathInfo::whiteIconPath()
 {
-    return QStringLiteral(":/img/material/white/");
+    return QString::fromUtf8(":/img/material/white/");
 }
 
 const QString PathInfo::blackIconPath()
 {
-    return QStringLiteral(":/img/material/black/");
+    return QString::fromUtf8(":/img/material/black/");
 }
 
 QStringList PathInfo::translationsPaths()
@@ -37,9 +37,9 @@ QStringList PathInfo::translationsPaths()
     QString trPath = QDir::toNativeSeparators(binaryPath + "/translations");
 #if defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
     return QStringList()
-           << QStringLiteral(APP_PREFIX) + "/share/flameshot/translations"
-           << trPath << QStringLiteral("/usr/share/flameshot/translations")
-           << QStringLiteral("/usr/local/share/flameshot/translations");
+           << QString::fromUtf8(APP_PREFIX) + "/share/flameshot/translations"
+           << trPath << QString::fromUtf8("/usr/share/flameshot/translations")
+           << QString::fromUtf8("/usr/local/share/flameshot/translations");
 #elif defined(Q_OS_WIN)
     return QStringList() << trPath;
 #endif

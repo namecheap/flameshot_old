@@ -54,7 +54,7 @@ bool ScreenshotSaver::saveToFilesystem(const QPixmap& capture,
                                        const QString& messagePrefix)
 {
     QString completePath = FileNameHandler().generateAbsolutePath(path);
-    completePath += QLatin1String(".png");
+    completePath += QString::fromUtf8(".png");
     bool ok = capture.save(completePath);
     QString saveMessage;
     QString notificationPath = completePath;
@@ -84,25 +84,29 @@ bool ScreenshotSaver::saveToFilesystemGUI(const QPixmap& capture)
               nullptr,
               QObject::tr("Save screenshot"),
               FileNameHandler().absoluteSavePath(),
-              QLatin1String("Portable Network Graphic file (PNG) (*.png);;BMP "
-                            "file (*.bmp);;JPEG file (*.jpg)"));
+              QString::fromUtf8(
+                "Portable Network Graphic file (PNG) (*.png);;BMP "
+                "file (*.bmp);;JPEG file (*.jpg)"));
         }
 
         if (savePath.isNull()) {
             break;
         }
 
-        if (!savePath.endsWith(QLatin1String(".png"), Qt::CaseInsensitive) &&
-            !savePath.endsWith(QLatin1String(".bmp"), Qt::CaseInsensitive) &&
-            !savePath.endsWith(QLatin1String(".jpg"), Qt::CaseInsensitive)) {
-            savePath += QLatin1String(".png");
+        if (!savePath.endsWith(QString::fromUtf8(".png"),
+                               Qt::CaseInsensitive) &&
+            !savePath.endsWith(QString::fromUtf8(".bmp"),
+                               Qt::CaseInsensitive) &&
+            !savePath.endsWith(QString::fromUtf8(".jpg"),
+                               Qt::CaseInsensitive)) {
+            savePath += QString::fromUtf8(".png");
         }
 
         ok = capture.save(savePath);
 
         if (ok) {
             QString pathNoFile =
-              savePath.left(savePath.lastIndexOf(QLatin1String("/")));
+              savePath.left(savePath.lastIndexOf(QString::fromUtf8("/")));
             ConfigHandler().setSavePath(pathNoFile);
             QString msg = QObject::tr("Capture saved as ") + savePath;
             if (config.copyPathAfterSaveEnabled()) {

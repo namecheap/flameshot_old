@@ -19,6 +19,7 @@
 #include "src/config/strftimechooserwidget.h"
 #include "src/utils/confighandler.h"
 #include "src/utils/filenamehandler.h"
+#include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -63,7 +64,8 @@ void FileNameEditor::initWidgets()
     m_outputLabel = new QLineEdit(this);
     m_outputLabel->setDisabled(true);
     QString foreground = this->palette().windowText().color().name();
-    m_outputLabel->setStyleSheet(QStringLiteral("color: %1").arg(foreground));
+    m_outputLabel->setStyleSheet(
+      QString::fromUtf8("color: %1").arg(foreground));
     QPalette pal = m_outputLabel->palette();
     QColor color =
       pal.color(QPalette::Disabled, m_outputLabel->backgroundRole());
@@ -109,6 +111,7 @@ void FileNameEditor::savePattern()
 
 void FileNameEditor::showParsedPattern(const QString& p)
 {
+    qDebug() << "void FileNameEditor::showParsedPattern(const QString& p)" << p;
     QString output = m_nameHandler->parseFilename(p);
     m_outputLabel->setText(output);
 }

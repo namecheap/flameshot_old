@@ -29,17 +29,17 @@ void DBusUtils::connectPrintCapture(QDBusConnection& session, uint id)
 {
     m_id = id;
     // captureTaken
-    session.connect(QStringLiteral("org.flameshot.Flameshot"),
-                    QStringLiteral("/"),
-                    QLatin1String(""),
-                    QStringLiteral("captureTaken"),
+    session.connect(QString::fromUtf8("org.flameshot.Flameshot"),
+                    QString::fromUtf8("/"),
+                    QString::fromUtf8(""),
+                    QString::fromUtf8("captureTaken"),
                     this,
                     SLOT(captureTaken(uint, QByteArray)));
     // captureFailed
-    session.connect(QStringLiteral("org.flameshot.Flameshot"),
-                    QStringLiteral("/"),
-                    QLatin1String(""),
-                    QStringLiteral("captureFailed"),
+    session.connect(QString::fromUtf8("org.flameshot.Flameshot"),
+                    QString::fromUtf8("/"),
+                    QString::fromUtf8(""),
+                    QString::fromUtf8("captureFailed"),
                     this,
                     SLOT(captureFailed(uint)));
 }

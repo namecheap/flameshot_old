@@ -20,7 +20,7 @@ QNetworkRequest requestCreds(creds);
 if (m_s3Settings.xApiKey().length() > 0) {
     requestCreds.setRawHeader(
       QByteArray("X-API-Key"),
-      QByteArray(m_s3Settings.xApiKey().toLocal8Bit()));
+      QByteArray(m_s3Settings.xApiKey().toUtf8()));
 }
 m_NetworkAMGetCreds->get(requestCreds);
 ```

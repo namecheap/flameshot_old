@@ -51,9 +51,9 @@ void VisualsEditor::initOpacitySlider()
             this,
             &VisualsEditor::saveOpacity);
     QHBoxLayout* localLayout = new QHBoxLayout();
-    localLayout->addWidget(new QLabel(QStringLiteral("0%")));
+    localLayout->addWidget(new QLabel(QString::fromUtf8("0%")));
     localLayout->addWidget(m_opacitySlider);
-    localLayout->addWidget(new QLabel(QStringLiteral("100%")));
+    localLayout->addWidget(new QLabel(QString::fromUtf8("100%")));
 
     QLabel* label = new QLabel();
     QString labelMsg = tr("Opacity of area outside selection:") + " %1%";

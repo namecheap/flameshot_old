@@ -56,12 +56,12 @@ void ImgurUploader::handleReply(QNetworkReply* reply)
     if (reply->error() == QNetworkReply::NoError) {
         QJsonDocument response = QJsonDocument::fromJson(reply->readAll());
         QJsonObject json = response.object();
-        QJsonObject data = json[QStringLiteral("data")].toObject();
-        setImageUrl(data[QStringLiteral("link")].toString());
-        m_deleteToken = data[QStringLiteral("deletehash")].toString();
+        QJsonObject data = json[QString::fromUtf8("data")].toObject();
+        setImageUrl(data[QString::fromUtf8("link")].toString());
+        m_deleteToken = data[QString::fromUtf8("deletehash")].toString();
 
         m_deleteImageURL.setUrl(
-          QStringLiteral("https://imgur.com/delete/%1").arg(m_deleteToken));
+          QString::fromUtf8("https://imgur.com/delete/%1").arg(m_deleteToken));
 
         // save history
         QString imageName = imageUrl().toString();
@@ -100,19 +100,19 @@ void ImgurUploader::upload()
     pixmap().save(&buffer, "PNG");
 
     QUrlQuery urlQuery;
-    urlQuery.addQueryItem(QStringLiteral("title"),
-                          QStringLiteral("flameshot_screenshot"));
+    urlQuery.addQueryItem(QString::fromUtf8("title"),
+                          QString::fromUtf8("flameshot_screenshot"));
     QString description = FileNameHandler().parsedPattern();
-    urlQuery.addQueryItem(QStringLiteral("description"), description);
+    urlQuery.addQueryItem(QString::fromUtf8("description"), description);
 
-    QUrl url(QStringLiteral("https://api.imgur.com/3/image"));
+    QUrl url(QString::fromUtf8("https://api.imgur.com/3/image"));
     url.setQuery(urlQuery);
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader,
                       "application/application/x-www-form-urlencoded");
     request.setRawHeader(
       "Authorization",
-      QStringLiteral("Client-ID %1").arg(IMGUR_CLIENT_ID).toUtf8());
+      QString::fromUtf8("Client-ID %1").arg(IMGUR_CLIENT_ID).toUtf8());
 
     m_NetworkAM->post(request, byteArray);
 }
